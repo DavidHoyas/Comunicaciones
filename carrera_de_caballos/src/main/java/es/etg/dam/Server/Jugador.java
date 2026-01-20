@@ -24,9 +24,6 @@ public class Jugador {
              BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
              PrintWriter out = new PrintWriter(s.getOutputStream(), true)) {
 
-            out.println(args[0]);
-            if (!Conexion.MSG_OK.equals(in.readLine())) return;
-
             int total = 0;
             String line;
             while ((line = in.readLine()) != null) {
