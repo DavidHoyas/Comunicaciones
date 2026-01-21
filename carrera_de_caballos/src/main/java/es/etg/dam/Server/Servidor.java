@@ -11,14 +11,9 @@ import es.etg.dam.Conexion;
 
 public class Servidor {
 
-    private static final String MSG_ESCUCHANDO = "Servidor escuchando en puerto ";
-    private static final String MSG_REGISTRADO = "Registrado: ";
-    private static final String MSG_PARTIDA = "Partida finalizada.";
-    private static final String MSG_ERROR = "Error servidor: ";
-
     public static void main(String[] args) {
         Carrera carrera = new Carrera();
-        System.out.println(MSG_ESCUCHANDO + Conexion.PORT);
+        System.out.println(Conexion.MSG_ESCUCHANDO + Conexion.PORT);
 
         try (ServerSocket server = new ServerSocket(Conexion.PORT)) {
 
@@ -36,14 +31,14 @@ public class Servidor {
 
                 carrera.register(name.trim(), s, out);
                 out.println(Conexion.MSG_OK);
-                System.out.println(MSG_REGISTRADO + name.trim() + " (" + carrera.size() + "/" + Conexion.MAX_CABALLOS + ")");
+                System.out.println(Conexion.MSG_REGISTRADO + name.trim() + " (" + carrera.size() + "/" + Conexion.MAX_CABALLOS + ")");
             }
 
             carrera.startRace();
-            System.out.println(MSG_PARTIDA);
+            System.out.println(Conexion.MSG_PARTIDA);
 
         } catch (IOException e) {
-            System.err.println(MSG_ERROR + e.getMessage());
+            System.err.println(Conexion.MSG_ERROR + e.getMessage());
             e.printStackTrace();
         }
     }
