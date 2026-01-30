@@ -6,21 +6,21 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import es.etg.dam.Conexion;
+import es.etg.dam.Common.Comun;
 
 public class Cliente {
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
-            System.err.println(Conexion.MSG_JUGADOR);
+            System.err.println(Comun.MSG_JUGADOR);
             return;
         }
         
-        try (Socket s = new Socket(Conexion.HOST, Conexion.PORT);
+        try (Socket s = new Socket(Comun.HOST, Comun.PORT);
              BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
              PrintWriter out = new PrintWriter(s.getOutputStream(), true)) {
 
             out.println(args[0]);
-            if (!Conexion.MSG_OK.equals(in.readLine()));
+            if (!Comun.MSG_OK.equals(in.readLine()));
         }
     }
     
