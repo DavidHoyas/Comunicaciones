@@ -15,13 +15,43 @@ public class Cliente {
             return;
         }
         
+        String nombreCaballo = args[0];
+        
         try (Socket s = new Socket(Comun.HOST, Comun.PORT);
-             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-             PrintWriter out = new PrintWriter(s.getOutputStream(), true)) {
+             PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()))) {
 
-            out.println(args[0]);
-            if (!Comun.MSG_OK.equals(in.readLine()));
+            // ENVIAR nombre del caballo
+            out.println(nombreCaballo);
+            
+            // ESPERAR confirmación del servidor
+            String respuesta = in.readLine();
+            if (!Comun.MSG_OK.equals(respuesta)) {
+                System.err.println("Error: " + respuesta);
+                return;
+            }
+            
+            System.out.println("Registrado como " + nombreCaballo + ". Esperando carrera...");
+            
+            // RECIBIR mensajes de la carrera
+            int total = 0;
+            String linea;
+            while ((linea = in.readLine()) != null) {
+                if (Comun.MSG_WIN.equals(linea)) {
+                    System.out.println("🏆 " + Comun.MSG_GANADOR);
+                    break;
+                }
+                if (Comun.MSG_LOSE.equals(linea)) {
+                    System.out.println("💀 " + Comun.MSG_PERDEDOR);
+                    break;
+                }
+                try {
+                    int avance = Integer.parseInt(linea.trim());
+                    total += avance;
+                    System.out.println("🐎 +" + avance + Comun.MSG_TOTAL + total);
+                } catch (NumberFormatException ignored) {}
+            }
         }
+        System.out.println("Conexión cerrada.");
     }
-    
 }

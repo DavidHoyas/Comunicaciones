@@ -47,7 +47,7 @@ public class Carrera {
                     winner = h;
                     break;
                 }
-                try { Thread.sleep(50); } catch (InterruptedException ignored) {}
+                try { Thread.sleep(200); } catch (InterruptedException ignored) {}
             }
         }
 

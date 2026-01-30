@@ -22,7 +22,7 @@ public class Servidor {
                 BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
                 PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 
-                String name = in.readLine();
+                String name = in.readLine().trim();
                 if (name == null || name.trim().isEmpty()) {
                     out.println(Comun.MSG_ERR_NAME);
                     s.close();
